@@ -1,0 +1,8 @@
+[redirect-proxy.l.devel.ac]
+remoteDomain = twinkledeals.com
+
+htmlSearch[] = /d022e2a6c342c3d94d6b/i
+htmlReplace[] = aaa
+
+htmlSearch[] = /4d605eb778dd760744f3c6e8aec2f7ad/i
+htmlReplace[] = bbb

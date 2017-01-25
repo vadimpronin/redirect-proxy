@@ -1,0 +1,34 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	
+	RewriteCond %{REQUEST_FILENAME} !-s
+	RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^.*$ index.php [QSA,NC,L]
+	RewriteRule ^$ index.php [QSA,NC,L]
+	#RewriteRule ^(.*)$ /index.php?$1 [QSA]
+</IfModule>
+
+<IfModule mod_headers.c>
+	Header append Vary User-Agent
+	
+	<FilesMatch \.gz\.[a-z]+$>
+		Header set Content-Encoding: gzip
+	</FilesMatch>
+	
+	<FilesMatch \.(css|js)$>
+		Header set Cache-Control: private
+	</FilesMatch>
+	
+	<FilesMatch \.(jpg|jpeg|gif|png)$>
+		Header set Cache-Control: public
+	</FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresDefault "access plus 1 year"
+</IfModule>
+
+FileETag MTime Size
+DirectoryIndex index.php

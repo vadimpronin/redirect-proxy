@@ -1,0 +1,4 @@
+/vendor
+.idea
+.phpstorm.meta.php
+config.ini
