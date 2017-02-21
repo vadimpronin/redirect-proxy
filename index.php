@@ -5,33 +5,33 @@ $proxy->processRequest();
 
 class Proxy
 {
-	protected $config;
+    protected $config;
 
-	public function __construct()
+    public function __construct()
     {
         $config = parse_ini_file('config.ini', true);
 
         $requestDomain = $_SERVER['HTTP_HOST'];
 
         foreach ($config as $domain => $domainConfig) {
-        	if (strpos($requestDomain, $domain) !== false) {
+            if (strpos($requestDomain, $domain) !== false) {
                 $this->config = $domainConfig;
                 $this->config['ourDomain'] = $domain;
                 $this->config['domainPrefix'] = str_replace($domain, '', $requestDomain);
 
                 return;
-			}
-		}
+            }
+        }
 
-		echo 'No such domain';
-		die();
-	}
+        echo 'No such domain';
+        die();
+    }
 
     public function processRequest()
     {
         $curlSession = curl_init();
 
-        $url = 'http://' . $this->config['domainPrefix'] . $this->config['remoteDomain'] . $_SERVER['REQUEST_URI'];
+        $url = 'http' . (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 's' : '') . '://' . $this->config['domainPrefix'] . $this->config['remoteDomain'] . $_SERVER['REQUEST_URI'];
         curl_setopt($curlSession, CURLOPT_URL, $url);
         curl_setopt($curlSession, CURLOPT_HEADER, 1);
         curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, 1);
